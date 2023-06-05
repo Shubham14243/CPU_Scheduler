@@ -59,6 +59,10 @@ def fcfs(pname,burst,arriv,prior):
             show(order[n])
             n += 1
         else:
+            qint.configure(state="normal")
+            qint.delete(0,25)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
@@ -398,6 +402,10 @@ def sjf(pname,burst,arriv,prior):
             show(n)
             n += 1
         else:
+            qint.configure(state="normal")
+            qint.delete(0,25)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
@@ -748,6 +756,10 @@ def priority(pname,burst,arriv,prior):
             show(n)
             n += 1
         else:
+            qint.configure(state="normal")
+            qint.delete(0,25)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
@@ -1057,7 +1069,9 @@ def priority(pname,burst,arriv,prior):
 
     app.mainloop() 
 
-def rrobin(pname,burst,arriv,prior):
+def rrobin(pname,burst,arriv,prior,quant):
+
+    quant = int(quant)
 
     def home():
         app.destroy()
@@ -1107,36 +1121,34 @@ def rrobin(pname,burst,arriv,prior):
             show(n)
             n += 1
         else:
+            qint.configure(state="normal")
+            qint.delete(0,25)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
             cint.configure(state="disabled")
 
-    def calculate_completion_time(arrival_time, burst_time, priority):
+    def calculate_completion_time(arrival_time, burst_time, time_quantum):
         n = len(arrival_time)
+        remaining_burst_time = list(burst_time)
         completion_time = [0] * n
-        remaining_time = burst_time.copy()
-        total_time = 0
-        completed = 0
-
-        while completed != n:
-            highest_priority = float('inf')
-            highest_priority_index = -1
-
+        current_time = 0
+        while True:
+            all_processes_completed = True
             for i in range(n):
-                if arrival_time[i] <= total_time and priority[i] < highest_priority and remaining_time[i] > 0:
-                    highest_priority = priority[i]
-                    highest_priority_index = i
-
-            if highest_priority_index == -1:
-                total_time += 1
-                continue
-
-            total_time += remaining_time[highest_priority_index]
-            completion_time[highest_priority_index] = total_time
-            remaining_time[highest_priority_index] = 0
-            completed += 1
-
+                if remaining_burst_time[i] > 0:
+                    all_processes_completed = False
+                    if remaining_burst_time[i] <= time_quantum:
+                        current_time += remaining_burst_time[i]
+                        completion_time[i] = current_time
+                        remaining_burst_time[i] = 0
+                    else:
+                        current_time += time_quantum
+                        remaining_burst_time[i] -= time_quantum
+            if all_processes_completed:
+                break
         return completion_time
             
 
@@ -1148,10 +1160,10 @@ def rrobin(pname,burst,arriv,prior):
     n = 0
 
     order = []
-    arv = prior.copy()
+    arv = arriv.copy()
     arv.sort()
     for i in range(num):
-        order.append(prior.index(arv[i]))
+        order.append(arriv.index(arv[i]))
 
 
     app = customtkinter.CTk()
@@ -1239,7 +1251,7 @@ def rrobin(pname,burst,arriv,prior):
     remtime = []
     readyq = []
 
-    compl = calculate_completion_time(arriv,burst,prior)
+    compl = calculate_completion_time(arriv, burst, quant)
     time = 0
 
     for i in range(num):
@@ -1416,13 +1428,13 @@ def rrobin(pname,burst,arriv,prior):
 
     app.mainloop() 
 
-'''
-pname = ["P1","P2","P3","P4","P5"]
-arriv = [0,2,4,6,8]
-burst = [5,4,3,2,1]
-com = [5,15,8,11,9]
+
+pname = ["P1","P2","P3","P4"]
+arriv = [0,1,2,3]
+burst = [5,4,3,2]
+#com = [5,15,8,11,9]
 prior = [3,4,1,2,5]
+quant = 2
 
 
-priority(pname,burst,arriv,prior)
-'''
+rrobin(pname,burst,arriv,prior,quant)

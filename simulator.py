@@ -32,8 +32,6 @@ def home():
                     else:
                         pname.append(row[i].get())
 
-
-                
                 app.destroy()
 
                 if ptype == 'First Come First Serve(FCFS)':
@@ -42,10 +40,15 @@ def home():
                     algorithm.sjf(pname,burst,arriv,prior)
                 elif ptype == 'Priority Scheduling':
                     algorithm.priority(pname,burst,arriv,prior)
+                elif ptype == 'Round Robin':
+                    quant = int(quant)
+                    algorithm.rrobin(pname,burst,arriv,prior,quant)
+                else:
+                    CTkMessagebox(title="Error", message="Error Occurred!", icon="cancel")
 
 
 
-            global num, ptype
+            global num, ptype, quant
             num_lbl.pack_forget()
             num_ent.pack_forget()
             ty_lbl.pack_forget()
@@ -96,7 +99,7 @@ def home():
                     if j == 0:
                         val = "P"+str(i+1)
                         e.insert(0,val)
-                    elif j == 3 and (ptype == 'First Come First Serve(FCFS)' or ptype == 'Shortest Job First(SJF)'):
+                    elif j == 3 and (ptype == 'First Come First Serve(FCFS)' or ptype == 'Shortest Job First(SJF)' or ptype == 'Round Robin'):
                         e.insert(0,i+1)
                     e.grid(row=i, column=j, padx=10, pady=10)
                     row.append(e)
@@ -110,6 +113,7 @@ def home():
                                         corner_radius=4,
                                         command=getval)
             sub_btn.place(relx=0.5, rely=0.95, anchor=customtkinter.CENTER)
+            quant = customtkinter.CTkInputDialog(text="Time Quantum:", title="Time Quantum").get_input()
 
         def validate():
 
