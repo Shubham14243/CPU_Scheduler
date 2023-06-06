@@ -2,6 +2,7 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 import visual
+import time
 
 
 customtkinter.set_appearance_mode("Dark")
@@ -59,10 +60,6 @@ def fcfs(pname,burst,arriv,prior):
             show(order[n])
             n += 1
         else:
-            qint.configure(state="normal")
-            qint.delete(0,25)
-            qint.insert(0,"EMPTY")
-            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
@@ -1078,57 +1075,89 @@ def rrobin(pname,burst,arriv,prior,quant):
         import simulator
 
     def show_visual():
-        visual.ps_visualization(arriv,pname,compl,wait,trnar,burst,prior)
+        visual.ps_visualization(arriv,pname,compl,wait,trnar,burst,quant)
 
     def show(n):
-        global remtime,timer,get_remtime,get_status,num
-        if remtime[n] > 0:
-            tot = (burst[order[n]]-remtime[n]+1)/burst[order[n]]
-            remtime[n] -= 1
+        global num, remtime
+        if n == -1:
+            tint.configure(state="normal")
+            tint.delete(0,5)
+            tint.insert(0,timer)
+            tint.configure(state="disabled")
+
+            qint.configure(state="normal")
+            cint.configure(state="normal")
+            cpu = readyq[n]
+            cint.delete(0,5)
+            cint.insert(0,"IDLE")
+            qint.delete(0,40)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
+            cint.configure(state="disabled")
+
+        else:
+
+            tot = (burst[n]-remtime[n])/burst[n]
             get_remtime[n].configure(state="normal")
             get_remtime[n].delete(0,5)
             get_remtime[n].insert(0,remtime[n])
             get_remtime[n].configure(state="disabled")
             get_status[n].set(tot)
-            timer += 1
+
             tint.configure(state="normal")
             tint.delete(0,5)
             tint.insert(0,timer)
             tint.configure(state="disabled")
-            tint.after(1000,show,n)
-        else:
-            sim()
 
-
-    def sim():
-        global timer,readyq,num,n,order
-        
-        if len(readyq) > 0:
             qint.configure(state="normal")
             cint.configure(state="normal")
-            cpu = readyq[0]
-            readyq.pop(0)
+            cpu = readyq[n]
+            newq = []
+            newq = readyq.copy()
+            fqu = []
+            for i in range(n, num):
+                fqu.append(newq[i])
+            for i in range(n):
+                fqu.append(newq[i])
+            for i in range(num):
+                if remtime[i] == 0:
+                    newq[i] = '*'
+            for i in range(len(fqu)):
+                if fqu[i] not in newq:
+                    fqu[i] = '_'
             cint.delete(0,5)
             cint.insert(0,cpu)
             qint.delete(0,3*num)
-            qint.insert(0,readyq)
+            qint.insert(0,fqu)
             qint.configure(state="disabled")
             cint.configure(state="disabled")
-            tint.configure(state="normal")
-            tint.delete(0,5)
-            tint.insert(0,timer)
-            tint.configure(state="disabled")
+
+
+    def sim():
+        global n, cflag, num, timer, remtime
+    
+        if cflag == quant:
+            cflag = 0
+            if n < num -1:
+                n += 1
+            else:
+                n = 0            
+        
+        if remtime[n] != 0:
+            remtime[n] -= 1
+            timer += 1
             show(n)
-            n += 1
+            cflag += 1
+            tint.after(1000,sim)
         else:
-            qint.configure(state="normal")
-            qint.delete(0,25)
-            qint.insert(0,"EMPTY")
-            qint.configure(state="disabled")
-            cint.configure(state="normal")
-            cint.delete(0,5)
-            cint.insert(0,"IDLE")
-            cint.configure(state="disabled")
+            if sum(remtime) == 0:
+                show(-1)
+            else:
+                if n < num -1:
+                    n += 1
+                else:
+                    n = 0
+                tint.after(1000,sim)
 
     def calculate_completion_time(arrival_time, burst_time, time_quantum):
         n = len(arrival_time)
@@ -1153,11 +1182,12 @@ def rrobin(pname,burst,arriv,prior,quant):
             
 
 
-    global num,qint,cint,timer,readyq,remtime,n,get_remtime,get_status,order
+    global num,qint,cint,timer,readyq,remtime,n,get_remtime,get_status,order,cflag
     
     num = len(pname)
     timer = 0
     n = 0
+    cflag = 0
 
     order = []
     arv = arriv.copy()
@@ -1167,7 +1197,7 @@ def rrobin(pname,burst,arriv,prior,quant):
 
 
     app = customtkinter.CTk()
-    app.title("PRIORITY SCHEDULING")
+    app.title("ROUND ROBIN SCHEDULING")
     app.geometry("1200x750+50+50")
 
     app.grid_rowconfigure((0,1,2,3,4), weight=1)
@@ -1225,8 +1255,10 @@ def rrobin(pname,burst,arriv,prior,quant):
                                     height=22)
     lab7.place(relx=0.565, rely=0.03, anchor=customtkinter.CENTER)
 
+    text1 = 'Status(Quantum : '+str(quant)+')'
+
     lab8 = customtkinter.CTkLabel(master=base_frame,
-                                    text="Status",
+                                    text=text1,
                                     font=("Consolas", 13),
                                     width=120,
                                     height=22)
@@ -1434,7 +1466,7 @@ arriv = [0,1,2,3]
 burst = [5,4,3,2]
 #com = [5,15,8,11,9]
 prior = [3,4,1,2,5]
-quant = 2
+quant = 3
 
 
 rrobin(pname,burst,arriv,prior,quant)
