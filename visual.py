@@ -301,38 +301,76 @@ def ps_visualization(arriv,pname,compl,wait,trnar,burst,prior):
 
     new.mainloop()
 
-def ps_visualization(arriv,pname,compl,wait,trnar,burst,quant):
+def rr_visualization(arriv,pname,wait,trnar,burst,quant):
 
-    n = len(compl)
+    ent = []
+    pro = []
+    ext = []
 
-    temp = []
+    bcopy = burst.copy()    
 
-    new = prior.copy()
-    new.sort()
-    for i in range(n):
-        temp.append(prior.index(new[i]))
+    def cal():
+        num = len(arriv)
+        n = 0
+        timer = min(arriv)
+        while sum(bcopy) != 0:
+            ent.append(timer)
+            pro.append(pname[n])
+            if bcopy[n] != 0:
+                if bcopy[n] > 0 and bcopy[n] < quant:
+                    timer += bcopy[n]
+                    bcopy[n] -= bcopy[n]
+                else:
+                    bcopy[n] -= quant
+                    timer += quant
+                ext.append(timer)
+            if n != num - 1:
+                n += 1
+            else:
+                n = 0
 
-    compl.sort()
+    cal()
 
-    tt = []
-    for i in range(n):
-        if i == 0:
-            tt.append(arriv[i])
-        else:
-            tt.append(compl[i-1])
-    arriv = tt
-
-    dur = []
-
-    for i in range(n):
-        if i == 0:
-            dur.append(burst[i])
-        else:
-            dur.append(compl[i]-compl[i-1])
+    for i in range(len(ext)):
+        print(ent[i],pro[i],ext[i])
 
 
-    fig, ax = plt.subplots(1, figsize=(16,6))
-    ax.barh(pname, dur, left=arriv)
+    data = []
+    pp = []
+    colo = ['blue','red','green','orange','black','yellow','brown','gray','pink','purple']
+
+    for i in range(len(ent)):
+        ll = []
+        
+        ll.append(ent[i])
+        ll.append(pro[i])
+        ll.append(ext[i])
+        data.append(tuple(ll))
+        if pro[i] not in pp:
+            pp.append(pro[i])
+
+
+    fig, ax = plt.subplots()
+
+    color_map = {}
+
+    for i in range(len(pp)):
+        color_map[pp[i]] = colo[(i%len(pp))]
+
+
+    for i, (start, label, end) in enumerate(data):
+        ax.broken_barh([(start, end - start)], (10 * i, 9), facecolors=color_map[label])
+
+
+    ax.set_ylim(0, 10 * len(data))
+    ax.set_yticks([(10 * i) + 5 for i in range(len(data))])
+    ax.set_yticklabels([label for _, label, _ in data])
+
+    # Set x-axis limits and labels
+    ax.set_xlim(0, max(end for _, _, end in data) + 1)
+    ax.set_xticks(range(0, max(end for _, _, end in data) + 1))
+
+    ax.grid(True)
     
 
     new = customtkinter.CTk()

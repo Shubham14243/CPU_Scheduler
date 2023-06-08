@@ -1075,7 +1075,7 @@ def rrobin(pname,burst,arriv,prior,quant):
         import simulator
 
     def show_visual():
-        visual.ps_visualization(arriv,pname,compl,wait,trnar,burst,quant)
+        visual.rr_visualization(arriv,pname,wait,trnar,burst,quant)
 
     def show(n):
         global num, remtime

@@ -16,6 +16,7 @@ def home():
         def get_pro():
 
             def getval():
+                global quant
                 
                 pname = []
                 burst = []
@@ -113,7 +114,8 @@ def home():
                                         corner_radius=4,
                                         command=getval)
             sub_btn.place(relx=0.5, rely=0.95, anchor=customtkinter.CENTER)
-            quant = customtkinter.CTkInputDialog(text="Time Quantum:", title="Time Quantum").get_input()
+            if ptype == 'Round Robin':
+                quant = customtkinter.CTkInputDialog(text="Time Quantum:", title="Time Quantum").get_input()
 
         def validate():
 
