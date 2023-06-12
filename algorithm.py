@@ -11,7 +11,7 @@ customtkinter.set_default_color_theme("blue")
 def fcfs(pname,burst,arriv,prior):
 
     def home():
-        app.destroy()
+        app1.destroy()
         import simulator
 
 
@@ -60,6 +60,10 @@ def fcfs(pname,burst,arriv,prior):
             show(order[n])
             n += 1
         else:
+            qint.configure(state="normal")
+            qint.delete(0,75)
+            qint.insert(0,"EMPTY")
+            qint.configure(state="disabled")
             cint.configure(state="normal")
             cint.delete(0,5)
             cint.insert(0,"IDLE")
@@ -80,14 +84,14 @@ def fcfs(pname,burst,arriv,prior):
         order.append(arriv.index(arv[i]))
 
 
-    app = customtkinter.CTk()
-    app.title("FIRST COME FIRST SERVE SCHEDULING")
-    app.geometry("1200x750+50+50")
+    app1 = customtkinter.CTk()
+    app1.title("FIRST COME FIRST SERVE SCHEDULING")
+    app1.geometry("1200x750+50+50")
 
-    app.grid_rowconfigure((0,1,2,3,4), weight=1)
-    app.grid_columnconfigure((0, 1,2), weight=1)
+    app1.grid_rowconfigure((0,1,2,3,4), weight=1)
+    app1.grid_columnconfigure((0, 1,2), weight=1)
 
-    base_frame = customtkinter.CTkFrame(master=app)
+    base_frame = customtkinter.CTkFrame(master=app1)
     base_frame.grid(row=0, column=0, columnspan=3, rowspan=4, padx=10, pady=(10,5), sticky="nsew")
 
     lab1 = customtkinter.CTkLabel(master=base_frame,
@@ -245,7 +249,7 @@ def fcfs(pname,burst,arriv,prior):
         status.append(get_status[i].get())
         readyq.append(pname[i])
 
-    base2_frame = customtkinter.CTkFrame(master=app,height=100)
+    base2_frame = customtkinter.CTkFrame(master=app1,height=100)
     base2_frame.grid(row=4, column=0, columnspan=3,rowspan=1, padx=10, pady=(5,10), sticky="nsew")
 
 
@@ -345,14 +349,15 @@ def fcfs(pname,burst,arriv,prior):
                                         command=home)
     back_btn.place(relx=0.90, rely=0.7, anchor=customtkinter.CENTER)
 
-    app.mainloop() 
+    app1.mainloop() 
 
 
 def sjf(pname,burst,arriv,prior):
 
     def home():
-        app.destroy()
-        import simulator
+        app2.destroy()
+        import simulator as s
+        s.home()
 
     def show_visual():
         visual.sjf_visualization(arriv,pname,compl,wait,trnar,burst)
@@ -400,7 +405,7 @@ def sjf(pname,burst,arriv,prior):
             n += 1
         else:
             qint.configure(state="normal")
-            qint.delete(0,25)
+            qint.delete(0,75)
             qint.insert(0,"EMPTY")
             qint.configure(state="disabled")
             cint.configure(state="normal")
@@ -423,14 +428,14 @@ def sjf(pname,burst,arriv,prior):
         order.append(burst.index(arv[i]))
 
 
-    app = customtkinter.CTk()
-    app.title("SHORTEST JOB FIRST SCHEDULING")
-    app.geometry("1200x750+50+50")
+    app2 = customtkinter.CTk()
+    app2.title("SHORTEST JOB FIRST SCHEDULING")
+    app2.geometry("1200x750+50+50")
 
-    app.grid_rowconfigure((0,1,2,3,4), weight=1)
-    app.grid_columnconfigure((0, 1,2), weight=1)
+    app2.grid_rowconfigure((0,1,2,3,4), weight=1)
+    app2.grid_columnconfigure((0, 1,2), weight=1)
 
-    base_frame = customtkinter.CTkFrame(master=app)
+    base_frame = customtkinter.CTkFrame(master=app2)
     base_frame.grid(row=0, column=0, columnspan=3, rowspan=4, padx=10, pady=(10,5), sticky="nsew")
 
     lab1 = customtkinter.CTkLabel(master=base_frame,
@@ -600,7 +605,7 @@ def sjf(pname,burst,arriv,prior):
         status.append(get_status[order[i]].get())
         readyq.append(pname[order[i]])
 
-    base2_frame = customtkinter.CTkFrame(master=app,height=100)
+    base2_frame = customtkinter.CTkFrame(master=app2,height=100)
     base2_frame.grid(row=4, column=0, columnspan=3,rowspan=1, padx=10, pady=(5,10), sticky="nsew")
 
 
@@ -700,13 +705,13 @@ def sjf(pname,burst,arriv,prior):
                                         command=home)
     back_btn.place(relx=0.90, rely=0.7, anchor=customtkinter.CENTER)
 
-    app.mainloop() 
+    app2.mainloop() 
 
 
 def priority(pname,burst,arriv,prior):
 
     def home():
-        app.destroy()
+        app3.destroy()
         import simulator
 
     def show_visual():
@@ -754,7 +759,7 @@ def priority(pname,burst,arriv,prior):
             n += 1
         else:
             qint.configure(state="normal")
-            qint.delete(0,25)
+            qint.delete(0,75)
             qint.insert(0,"EMPTY")
             qint.configure(state="disabled")
             cint.configure(state="normal")
@@ -804,14 +809,14 @@ def priority(pname,burst,arriv,prior):
         order.append(prior.index(arv[i]))
 
 
-    app = customtkinter.CTk()
-    app.title("PRIORITY SCHEDULING")
-    app.geometry("1200x750+50+50")
+    app3 = customtkinter.CTk()
+    app3.title("PRIORITY SCHEDULING")
+    app3.geometry("1200x750+50+50")
 
-    app.grid_rowconfigure((0,1,2,3,4), weight=1)
-    app.grid_columnconfigure((0, 1,2), weight=1)
+    app3.grid_rowconfigure((0,1,2,3,4), weight=1)
+    app3.grid_columnconfigure((0, 1,2), weight=1)
 
-    base_frame = customtkinter.CTkFrame(master=app)
+    base_frame = customtkinter.CTkFrame(master=app3)
     base_frame.grid(row=0, column=0, columnspan=3, rowspan=4, padx=10, pady=(10,5), sticky="nsew")
 
     lab1 = customtkinter.CTkLabel(master=base_frame,
@@ -964,7 +969,7 @@ def priority(pname,burst,arriv,prior):
         status.append(get_status[order[i]].get())
         readyq.append(pname[order[i]])
 
-    base2_frame = customtkinter.CTkFrame(master=app,height=100)
+    base2_frame = customtkinter.CTkFrame(master=app3,height=100)
     base2_frame.grid(row=4, column=0, columnspan=3,rowspan=1, padx=10, pady=(5,10), sticky="nsew")
 
 
@@ -1064,14 +1069,14 @@ def priority(pname,burst,arriv,prior):
                                         command=home)
     back_btn.place(relx=0.90, rely=0.7, anchor=customtkinter.CENTER)
 
-    app.mainloop() 
+    app3.mainloop() 
 
 def rrobin(pname,burst,arriv,prior,quant):
 
     quant = int(quant)
 
     def home():
-        app.destroy()
+        app4.destroy()
         import simulator
 
     def show_visual():
@@ -1090,7 +1095,7 @@ def rrobin(pname,burst,arriv,prior,quant):
             cpu = readyq[n]
             cint.delete(0,5)
             cint.insert(0,"IDLE")
-            qint.delete(0,40)
+            qint.delete(0,75)
             qint.insert(0,"EMPTY")
             qint.configure(state="disabled")
             cint.configure(state="disabled")
@@ -1196,14 +1201,14 @@ def rrobin(pname,burst,arriv,prior,quant):
         order.append(arriv.index(arv[i]))
 
 
-    app = customtkinter.CTk()
-    app.title("ROUND ROBIN SCHEDULING")
-    app.geometry("1200x750+50+50")
+    app4 = customtkinter.CTk()
+    app4.title("ROUND ROBIN SCHEDULING")
+    app4.geometry("1200x750+50+50")
 
-    app.grid_rowconfigure((0,1,2,3,4), weight=1)
-    app.grid_columnconfigure((0, 1,2), weight=1)
+    app4.grid_rowconfigure((0,1,2,3,4), weight=1)
+    app4.grid_columnconfigure((0, 1,2), weight=1)
 
-    base_frame = customtkinter.CTkFrame(master=app)
+    base_frame = customtkinter.CTkFrame(master=app4)
     base_frame.grid(row=0, column=0, columnspan=3, rowspan=4, padx=10, pady=(10,5), sticky="nsew")
 
     lab1 = customtkinter.CTkLabel(master=base_frame,
@@ -1358,7 +1363,7 @@ def rrobin(pname,burst,arriv,prior,quant):
         status.append(get_status[order[i]].get())
         readyq.append(pname[order[i]])
 
-    base2_frame = customtkinter.CTkFrame(master=app,height=100)
+    base2_frame = customtkinter.CTkFrame(master=app4,height=100)
     base2_frame.grid(row=4, column=0, columnspan=3,rowspan=1, padx=10, pady=(5,10), sticky="nsew")
 
 
@@ -1458,15 +1463,4 @@ def rrobin(pname,burst,arriv,prior,quant):
                                         command=home)
     back_btn.place(relx=0.90, rely=0.7, anchor=customtkinter.CENTER)
 
-    app.mainloop() 
-
-
-pname = ["P1","P2","P3","P4"]
-arriv = [0,1,2,3]
-burst = [5,4,3,2]
-#com = [5,15,8,11,9]
-prior = [3,4,1,2,5]
-quant = 3
-
-
-rrobin(pname,burst,arriv,prior,quant)
+    app4.mainloop() 

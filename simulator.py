@@ -135,8 +135,10 @@ def home():
                         get_pro()
 
         
-        head_lbl.pack_forget()
-        desc_lbl.pack_forget()
+        head_lbl.place_forget()
+        desc_lbl.place_forget()
+        desc_lbl1.place_forget()
+        desc_lbl2.place_forget()
         start_btn.place_forget()
         exit_btn.place_forget()
 
@@ -176,7 +178,7 @@ def home():
 
 
     app = customtkinter.CTk()
-    app.geometry("600x450")
+    app.geometry("650x450")
     app.title("PROCESS SCHEDULING AND ANALYZING TOOL")
 
 
@@ -184,18 +186,32 @@ def home():
     frame_1.pack(pady=20, padx=20, fill="both", expand=True)
 
     head_lbl = customtkinter.CTkLabel(master=frame_1,
-                                    text="PROCESS SCHEDULING AND ANALYZING TOOL",
-                                    font=("Consolas", 25),
+                                    text="PROCESS SCHEDULING SIMULATION AND VISUALIZATION TOOL",
+                                    font=("Consolas", 20),
                                     width=120,
                                     height=100)
-    head_lbl.pack(pady=10, padx=10)
+    head_lbl.place(relx=0.5, rely=0.1, anchor=customtkinter.CENTER)
 
     desc_lbl = customtkinter.CTkLabel(master=frame_1,
-                                    text="A Software Tool for Scheduling and Visualizing various Process \nScheduling Methods. This Tool is Developed using \nTkinter Library of Python.",
+                                    text="A Software Tool for Scheduling, Simulating and Visualizing various \nProcess Scheduling Methods. This Tool is Developed \nusing Tkinter Library of Python.",
                                     font=("Consolas", 15),
                                     width=120,
                                     height=10)
-    desc_lbl.pack(pady=20, padx=10)
+    desc_lbl.place(relx=0.5, rely=0.3, anchor=customtkinter.CENTER)
+
+    desc_lbl1 = customtkinter.CTkLabel(master=frame_1,
+                                    text="DISTRIBUTED OPERATING SYSTEM PROJECT",
+                                    font=("Consolas", 15),
+                                    width=120,
+                                    height=10)
+    desc_lbl1.place(relx=0.5, rely=0.48, anchor=customtkinter.CENTER)
+
+    desc_lbl2 = customtkinter.CTkLabel(master=frame_1,
+                                    text="Guided By Dr. Senthil Kumar T",
+                                    font=("Consolas", 15),
+                                    width=120,
+                                    height=10)
+    desc_lbl2.place(relx=0.5, rely=0.6, anchor=customtkinter.CENTER)
 
     start_btn = customtkinter.CTkButton(master=frame_1,
                                         text="Start",

@@ -331,7 +331,9 @@ def rr_visualization(arriv,pname,wait,trnar,burst,quant):
 
     cal()
 
-    for i in range(len(ext)):
+    elen = len(ext)
+
+    for i in range(elen):
         print(ent[i],pro[i],ext[i])
 
 
@@ -339,7 +341,7 @@ def rr_visualization(arriv,pname,wait,trnar,burst,quant):
     pp = []
     colo = ['blue','red','green','orange','black','yellow','brown','gray','pink','purple']
 
-    for i in range(len(ent)):
+    for i in range(elen):
         ll = []
         
         ll.append(ent[i])
@@ -442,14 +444,3 @@ def rr_visualization(arriv,pname,wait,trnar,burst,quant):
     canvas.get_tk_widget().place(relx=0.75, rely=0.64, anchor=customtkinter.CENTER)
 
     new.mainloop()
-'''
-pname = ["P1","P2","P3","P4","P5"]
-arriv = [0,2,4,6,8]
-burst = [5,4,3,2,1]
-compl = [5,15,8,11,9]
-trnar = [3,4,5,6,7]
-wait = [0,1,2,3,4]
-
-
-sjf_visualization(arriv,pname,compl,wait,trnar,burst)
-'''
