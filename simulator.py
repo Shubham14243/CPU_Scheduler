@@ -138,7 +138,6 @@ def home():
         head_lbl.place_forget()
         desc_lbl.place_forget()
         desc_lbl1.place_forget()
-        desc_lbl2.place_forget()
         start_btn.place_forget()
         exit_btn.place_forget()
 
@@ -205,13 +204,6 @@ def home():
                                     width=120,
                                     height=10)
     desc_lbl1.place(relx=0.5, rely=0.48, anchor=customtkinter.CENTER)
-
-    desc_lbl2 = customtkinter.CTkLabel(master=frame_1,
-                                    text="Guided By Dr. Senthil Kumar T",
-                                    font=("Consolas", 15),
-                                    width=120,
-                                    height=10)
-    desc_lbl2.place(relx=0.5, rely=0.6, anchor=customtkinter.CENTER)
 
     start_btn = customtkinter.CTkButton(master=frame_1,
                                         text="Start",
