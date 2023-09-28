@@ -1,0 +1,2 @@
+CTkMessagebox==1.5
+customtkinter==5.1.2
